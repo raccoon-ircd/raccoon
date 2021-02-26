@@ -1,0 +1,100 @@
+.\" ircd.8/8d/1m 3.0 14 Oct 2019
+.\" administrator@aspircd.com, informed by nenolod's ircd.8
+.Dd October 14, 2019
+.Dt IRCD %%MANSECTION%%
+.Os
+.Sh Name
+.Nm ircd
+.Nd the internet relay chat daemon, as modified successively by EFnet, ratbox, AthemeNet, and AspIRCd Project
+.Sh Synopsis
+.Nm
+.Op Fl foreground
+.Op Fl version
+.Op Fl conftest
+.Op Fl logfile Ar filename
+.Op Fl configfile Ar filename
+.Op Fl pidfile Ar filename
+.Sh Description
+.Xr ircd %%MANSECTION%%
+is the server (daemon) program for Internet Relay Chat clients and robots, collectively known as the Internet Relay Chat program.
+The function of
+.Xr ircd %%MANSECTION%%
+is to relay messages between its clients, and between its clients and other
+.Xr ircd %%MANSECTION%%
+servers.
+This
+.Xr ircd %%MANSECTION%%
+is the AspIRCd ircd, also known as 
+.Dq the manipulated statement- modern ircd-nine,
+the former name of the Aspircd IRC network.
+.Sh Options
+.Bl -tag -width "-w size "
+.It Fl foreground
+Prevent ircd from detaching from the teletypewriter, at least until an operator runs \fB/restart\fR.
+.It Fl version
+Instead of running
+.Xr ircd %%MANSECTION%% ,
+print the type and version of
+.Xr ircd %%MANSECTION%% ,
+then exit.
+.It Fl conftest
+Check ircd.conf and its inclusions (such as network.conf) for validity.
+Note that certain configurations are valid which will not work on your system; for example, if you have configured vhosts that are not available on your machine, the configuration is valid but will fail to function.
+.It Fl logfile Ar $filename
+Output the main ircd log to the file named $filename, instead of to $INSTALLATION_ROOT/logs/ircd.log (on non-FHS installs)
+.It Fl configfile Ar $filename
+Read the ircd configuration file from the file named $filename, instead of from $INSTALLATION_ROOT/etc/ircd.conf .
+This may impact the location of network.conf, or render that file useless, depending on the configuration, and may also impact the location of TLS certification data.
+.It Fl pidfile Ar $filename
+Output the process ID (PID) of the ircd to $filename, instead of to $INSTALLATION_ROOT/etc/ircd.pid .
+This may impact how service supervisors operate.
+Notably, if your
+.Xr rc 8
+mechanism, your
+.Xr systemd 8
+configuration, or your Solaris/illumos
+.Xr smf 5
+mechanism is configured to find the process ID in one place, and it puts it in another place, it will not believe the IRCd to already be running, risking issues when you attempt to restart it.
+.El
+.Sh Files
+.Bl -tag -width "-w size "
+.It $INSTALLATION_ROOT/etc/ircd.conf
+ircd configuration.
+.It $INSTALLATION_ROOT/etc/network.conf
+portions of ircd configuration that are meant to be installed on multiple machines.
+may not be present once you have set your ircd up how you like it.
+.It $INSTALLATION_ROOT/etc/ban.db
+ircd local ban, exempt, and resv configuration.
+.It $INSTALLATION_ROOT/etc/ircd.motd
+Message of the Day printed to every IRC user who connects to this server.
+Should contain the rules of the server and/or network, alternate connection addresses and administrator details (since nobody reads /ADMIN).
+.El
+.Sh Usage
+Almost none of the configuration of the ircd is done at the command line.
+Nearly all of the configuration rests in ircd.conf, which is largely self documenting, and network.conf (if you have elected to use split configuration files, as the Umbrellix IRC network has).
+A small portion rests in ban.db, which you edit from within the Internet Relay Chat program, via a bot or directly through your IRC client.
+You can access the online help for this, once you are an operator, through /quote HELP (the /quote is required as most IRC clients have their own /HELP command).
+.Sh Bugs
+Options specified in ircd.conf (which was imported from the old ircd-chatd we used to develop) have not all been implemented in irca.
+Some may never, and are liable to be removed from that file at any point as they are not part of the configuration spec.
+.Sh Attributes
+See
+.Xr attributes 5
+if you are on a Solaris or illumos system for a description of the following attributes.
+You do not need to know what this means if you are on any other system.
+For the purpose of this manual page, replace "Sun" in
+.Xr attributes 5
+with "aspircd.com".
+
+Notification of notifiable broken interfaces, should the program expose one in the future, will be via the project webpage if you do not have a support deal with us.
+You still probably do not need to know what any of this means, and indeed, this table may not be correctly formulated; the developers of irca do not believe that software outside of the core system is actually even meant to have an attributes table.
+.TS
+box;
+ c | c
+ l | l .
+Attribute type	Attribute value
+=
+Interface stability	Not-an-Interface / None currently exposed
+_
+Architecture	Any where sizeof(int) > 4
+.TE

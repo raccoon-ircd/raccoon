@@ -1,0 +1,4 @@
+LOCOPS :<message>
+
+Sends a LOCOPS message of <message> to all
+opers on local server who are umode +l

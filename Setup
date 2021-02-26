@@ -1,0 +1,163 @@
+art = """
+  ____                                       _             _
+ |  _ \ __ _  ___ ___ ___   ___  _ __       (_)_ __ ___ __| |
+ | |_) / _` |/ __/ __/ _ \ / _ \| '_ \ _____| | '__/ __/ _` |
+ |  _ < (_| | (_| (_| (_) | (_) | | | |_____| | | | (_| (_| |
+ |_| \_\__,_|\___\___\___/ \___/|_| |_|     |_|_|  \___\__,_|
+ 
+                                                0.6.8 (STABLE)
+
+"""
+
+#!/usr/bin/env python
+
+"""
+Copyright 2014-2021 Sam Dodrill <shadowh511@gmail.com>
+Copyright 2015-2021 Craig Saunders <root@chatfreedom.us>
+Copyright 2018-2021 David Franklin/ syzolin <vagbox@outlook.com>
+This software is under GPL.
+"""
+
+
+welcome2 ="""	
+---------------------------------------------------------------------------------
+              Welcome to the Raccoon-IRCd Installation Setup for Linux
+--------------------------------------------------------------------------------
+CURRENT BUILD: v0.6.8
+BUILD ALIAS: Raccoon-IRCd
+RELEASED - Feb 26, 2021
+
+---------------------------------------------------------------------------------
+              COPYRIGHT (C) 2018 - 2021 ALL RIGHTS RESERVED - SYZOLIN
+---------------------------------------------------------------------------------
+This installation script is automated and will install all the dependencies required for Building Raccoon-IRCd.
+This installation script will install, configure and build Raccoon-IRCd for you.
+"""
+print(art)
+print(welcome2)
+raw_input("Press enter to configure Raccoon-IRCd....")
+import subprocess
+subprocess.call("./dependencies.sh")
+
+
+from os import system
+import os
+installloc = ("$HOME/ircd")
+installloc2 = os.getenv("HOME")
+
+def promptUser(prompt, default):
+    inp = raw_input("%s [%s]> " % (prompt, default))
+
+    if inp == "":
+        return default
+    else:
+        return inp
+
+def promptYesNo(prompt, default=True):
+    inp = False if promptUser(prompt, "y") == "n" else True
+    return inp
+
+configflags = ["./configure"]
+
+welcome ="""
+
+---------------------------------------------------------------------------------------------------------------
+Raccoon-IRCd SETUP
+---------------------------------------------------------------------------------------------------------------
+CONFIGURATIONS:
+"""
+
+print(art)
+print(welcome)
+
+print("")
+
+print("Please specify the maximum nickname length. This must be the same across")
+print("all servers in your network or you risk desyncs. The maximum is 50.")
+
+nicklen = 100
+while nicklen > 51:
+    if nicklen != 100:
+        print "Error: you must choose a value under 50."
+
+    nicklen = int(promptUser("Maximum nickname length?", "31"))
+
+print("")
+
+
+print("Please specify the maximum topic length. This must be the same across")
+print("all servers in your network or you risk netsplits. The maximum is 780.")
+
+topiclen = 800
+while topiclen > 781:
+    if topiclen != 800:
+        print "Error: you must choose a value under 780."
+
+    topiclen = int(promptUser("Maximum topic length?", "390"))
+
+print("")
+
+print("Would you like to use SSL encryption for client and server links? (Recommended)")
+
+usessl = promptYesNo("SSL? (y/n)")
+
+print("")
+
+print("Would you like to enable shared sqlite?")
+print("ideal for low-power ARM boards and budget VPSes)")
+
+sqlite = promptYesNo("Shared sqlite? (y/n)")
+
+print("")
+
+print("Would you like to enable IPv6 Support?")
+
+IPv6 = promptYesNo("IPv6? (y/n)")
+
+configflags.append("--prefix=%s" % installloc)
+configflags.append("--with-nicklen=%s" % nicklen)
+configflags.append("--with-topiclen=%s" % topiclen)
+
+if usessl:
+    configflags.append("--enable-openssl")
+else:
+    configflags.append("--disable-openssl")
+
+if not sqlite:
+    configflags.append("")
+else:
+    configflags.append("--with-shared-sqlite")
+
+if IPv6:
+    configflags.append("--enable-ipv6")
+else:
+    configflags.append("")
+
+print("\nThat should be it for now. Running %s" % " ".join(configflags))
+
+print("")
+print("")
+print("")
+system("clear")
+print(art)
+raw_input("Press enter to make Configuration file for Raccoon-IRCd...")
+import subprocess
+subprocess.call("./autogen.sh")
+
+
+system(" ".join(configflags))
+
+system("clear")
+
+print(art)
+raw_input("Configured! Press enter to build Raccoon-IRCd.")
+import subprocess
+subprocess.call("./build.sh")
+system("clear")
+print(art)
+
+raw_input("Press enter to configure SSL Certificates for Raccoon-IRCd....")
+import subprocess
+subprocess.call("./sslcert.sh")
+
+# vim: set ts=4 sw=4 tw=0 et
