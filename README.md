@@ -1,6 +1,6 @@
 ## raccoon
 
-**raccoon** is a high performance, IRCv3.2 capable, charybdis-baed, and scalable IRC daemon.
+**raccoon** is a high performance, IRCv3.2 capable, charybdis-based, and scalable IRC daemon.
 raccoon-ircd is a fork of aspircd (@aspircd) which is maintained by (@vagbox) and (@twinusers)
 
 ## Information
