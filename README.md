@@ -1,7 +1,7 @@
 ## raccoon
 
 **raccoon** is a high performance, IRCv3.2 capable, charybdis-based, and scalable IRC daemon.
-raccoon-ircd is a fork of aspircd (@aspircd) which is maintained by (@vagbox) and (@twinusers)
+raccoon-ircd is a fork of aspircd (@aspircd) which is maintained by (@floxapps) and (@twinusers)
 
 ## Information
 This IRCd heads in the version UnrealIRCd (3.2.x branch) was headed and continues to be in the same direction
@@ -56,7 +56,7 @@ For proper documentation regarding configuring up your IRCd real quick, you may 
 ## Support
 Interested in meeting the developers?
 You may contact our Team at:-
-Vibhore Agarwal (vagbox) (vagbox -at- outlook.com)
+Flox (floxapps) (vagbox -at- outlook.com)
 
 Finding services that fully supports this IRCd?
 https://github.com/raccoon/shale-services
